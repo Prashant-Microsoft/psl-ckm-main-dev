@@ -117,6 +117,9 @@ jobs:
           KEYVAULTS="${{ env.KEYVAULTS }}"
           echo "keyvaults :: $KEYVAULTS"
 
+          # Remove the surrounding square brackets, if they exist
+          stripped_keyvaults=$(echo "$KEYVAULTS" | sed 's/\[\|\]//g')
+          echo "stripped : $stripped_keyvaults"
 
          
           # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
