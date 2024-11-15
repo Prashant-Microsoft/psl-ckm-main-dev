@@ -113,7 +113,7 @@ jobs:
           # echo "Waiting for resource group deletion to complete..."
           # sleep 200  # Wait for 2 minutes (200 seconds) to allow deletion to complete
 
-          resources_to_check = ["multipslre","mykvtes","pslmultitest"]
+          resources_to_check = ("multipslre","mykvtes","pslmultitest")
           # Get the list of resources in YAML format
           resource_list=$(az resource list --resource-group myResourceGroup4 --output yaml)
           echo "list resourcea: $resource_list"
