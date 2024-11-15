@@ -117,14 +117,18 @@ jobs:
           KEYVAULTS="${{ env.KEYVAULTS }}"
           echo "keyvaults :: $KEYVAULTS"
 
-          # # Convert JSON array into a Bash array
-          # resources_to_check=$(echo $KEYVAULTS | tr -d '[]' | tr ',' '\n' | tr -d '"')
+          # Remove the square brackets, replace commas with spaces, and ensure elements are quoted
+          resources_to_check=$(echo "$KEYVAULTS" | sed 's/[\[\]]//g' | sed 's/,/ /g')
 
-          # echo "rrrrrresoucee :: $resources_to_check"
+          # Format it into the desired array syntax
+          resources_to_check=("$(echo $resources_to_check | sed 's/ /" "/g')")
+
+          # Print the resulting array
+          echo "resources_to_check=(${resources_to_check[@]})"
           
          
-          resources_to_check=("multipslre" "mykvtes" "pslmultitest")
-          echo "rrrrrresoucee :: $resources_to_check"
+          # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
+          # echo "rrrrrresoucee :: $resources_to_check"
           
           #----------------------------------------------------------
           # # Get the list of resources in YAML format
