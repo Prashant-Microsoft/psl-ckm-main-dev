@@ -117,18 +117,14 @@ jobs:
           KEYVAULTS="${{ env.KEYVAULTS }}"
           echo "keyvaults :: $KEYVAULTS"
 
-          # Remove the surrounding square brackets, if they exist
-          stripped_keyvaults=$(echo "$KEYVAULTS" | sed 's/\[\|\]//g')
-          echo "stripped : $stripped_keyvaults"
+          # Convert JSON array into a Bash array
+          resources_to_check=($(echo $KEYVAULTS | jq -r '.[]'))
 
-          #     # Convert the comma-separated string into an array
-          IFS=',' read -r -a keyvault_array <<< "$stripped_keyvaults"
-
-          echo "final array: $keyvault_array"
-
+          echo "rrrrrresoucee :: $resources_to_check"
+          
          
           # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
-          # echo "rrrrrresoucee :: $resources_to_check"
+         
           #----------------------------------------------------------
           # # Get the list of resources in YAML format
           # resource_list=$(az resource list --resource-group myResourceGroup4 --output yaml)
