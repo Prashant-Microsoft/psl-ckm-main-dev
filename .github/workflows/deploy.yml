@@ -118,8 +118,10 @@ jobs:
           echo "keyvaults :: $KEYVAULTS"
 
 
-          #----------------------------------------------------------
+         
           # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
+          echo "rrrresoucee :: $resources_to_check"
+          #----------------------------------------------------------
           # # Get the list of resources in YAML format
           # resource_list=$(az resource list --resource-group myResourceGroup4 --output yaml)
           # echo "list resourcea: $resource_list"
