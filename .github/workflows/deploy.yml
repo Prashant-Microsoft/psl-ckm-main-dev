@@ -122,55 +122,50 @@ jobs:
           # Convert the comma-separated string into an array
           IFS=',' read -r -a resources_to_check <<< "$stripped_keyvaults"
           
-          # Append new elements to the array
+          # Append new resources to the array
           resources_to_check+=("${{ env.SOLUTION_PREFIX }}-openai" "${{ env.SOLUTION_PREFIX }}-cogser")
 
-          echo "final arr: ${resources_to_check[@]}"
+          echo "List of resources to check: ${resources_to_check[@]}"
          
-          # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
-          # echo "rrrrrresoucee :: $resources_to_check"
-          
-          #----------------------------------------------------------
-          # # Get the list of resources in YAML format
-          # resource_list=$(az resource list --resource-group myResourceGroup4 --output yaml)
-          # echo "list resourcea: $resource_list"
+          # Get the list of resources in YAML format
+          resource_list=$(az resource list --resource-group myResourceGroup4 --output yaml)
 
-          # # Maximum number of retries
-          # max_retries=3
+          # Maximum number of retries
+          max_retries=3
 
-          # # Retry intervals in seconds (30, 60, 120)
-          # retry_intervals=(30 20 10)
+          # Retry intervals in seconds (30, 60, 120)
+          retry_intervals=(30 20 10)
 
-          # while true; do
-          #   resource_found=false
+          while true; do
+            resource_found=false
 
-          #   # Iterate through the resources to check
-          #   for resource in "${resources_to_check[@]}"; do
-          #     echo "Checking resource: $resource"
-          #     if echo "$resource_list" | grep -q "name: $resource"; then
-          #       echo "Resource '$resource' exists in the resource group."
-          #       resource_found=true
-          #     else
-          #       echo "Resource '$resource' does NOT exist in the resource group."
-          #     fi
-          #   done
+            # Iterate through the resources to check
+            for resource in "${resources_to_check[@]}"; do
+              echo "Checking resource: $resource"
+              if echo "$resource_list" | grep -q "name: $resource"; then
+                echo "Resource '$resource' exists in the resource group."
+                resource_found=true
+              else
+                echo "Resource '$resource' does NOT exist in the resource group."
+              fi
+            done
 
-          #   # If any resource exists, retry
-          #   if [ "$resource_found" = true ]; then
-          #     retries=$((retries + 1))
-          #     if [ "$retries" -ge "$max_retries" ]; then
-          #       echo "Maximum retry attempts reached. Exiting."
-          #       break
-          #     else
-          #       # Wait for the appropriate interval for the current retry
-          #       echo "Waiting for ${retry_intervals[$retries-1]} seconds before retrying..."
-          #       sleep ${retry_intervals[$retries-1]}
-          #     fi
-          #   else
-          #     echo "No resources found. Exiting."
-          #     break
-          #   fi
-          # done
+            # If any resource exists, retry
+            if [ "$resource_found" = true ]; then
+              retries=$((retries + 1))
+              if [ "$retries" -ge "$max_retries" ]; then
+                echo "Maximum retry attempts reached. Exiting."
+                break
+              else
+                # Wait for the appropriate interval for the current retry
+                echo "Waiting for ${retry_intervals[$retries-1]} seconds before retrying..."
+                sleep ${retry_intervals[$retries-1]}
+              fi
+            else
+              echo "No resources found. Exiting."
+              break
+            fi
+          done
 
 
       # - name: Purging the Resources
