@@ -59,37 +59,37 @@ jobs:
       #       --template-file Deployment/bicep/main.bicep \
       #       --parameters solutionPrefix=${{ env.SOLUTION_PREFIX }} location=eastus
 
-      # - name: List KeyVaults and Store in Array
-      #   id: list_keyvaults
-      #   run: |
-      #     set -e
-      #     echo "Listing all KeyVaults in the resource group ${RESOURCE_GROUP_NAME}..."
+      - name: List KeyVaults and Store in Array
+        id: list_keyvaults
+        run: |
+          set -e
+          echo "Listing all KeyVaults in the resource group ${RESOURCE_GROUP_NAME}..."
           
-      #     # Get the list of KeyVaults in the specified resource group
-      #     keyvaults=$(az resource list --resource-group ${{ env.RESOURCE_GROUP_NAME }} --query "[?type=='Microsoft.KeyVault/vaults'].name" -o tsv)
+          # Get the list of KeyVaults in the specified resource group
+          keyvaults=$(az resource list --resource-group myResourceGroup4 --query "[?type=='Microsoft.KeyVault/vaults'].name" -o tsv)
 
-      #     if [ -z "$keyvaults" ]; then
-      #       echo "No KeyVaults found in resource group ${RESOURCE_GROUP_NAME}."
-      #       echo "KEYVAULTS=[]" >> $GITHUB_ENV  # If no KeyVaults found, set an empty array
-      #     else
-      #       echo "KeyVaults found: $keyvaults"
+          if [ -z "$keyvaults" ]; then
+            echo "No KeyVaults found in resource group ${RESOURCE_GROUP_NAME}."
+            echo "KEYVAULTS=[]" >> $GITHUB_ENV  # If no KeyVaults found, set an empty array
+          else
+            echo "KeyVaults found: $keyvaults"
 
-      #       # Format the list into an array with proper formatting (no trailing comma)
-      #       keyvault_array="["
-      #       first=true
-      #       for kv in $keyvaults; do
-      #         if [ "$first" = true ]; then
-      #           keyvault_array="$keyvault_array\"$kv\""
-      #           first=false
-      #         else
-      #           keyvault_array="$keyvault_array,\"$kv\""
-      #         fi
-      #       done
-      #       keyvault_array="$keyvault_array]"
+            # Format the list into an array with proper formatting (no trailing comma)
+            keyvault_array="["
+            first=true
+            for kv in $keyvaults; do
+              if [ "$first" = true ]; then
+                keyvault_array="$keyvault_array\"$kv\""
+                first=false
+              else
+                keyvault_array="$keyvault_array,\"$kv\""
+              fi
+            done
+            keyvault_array="$keyvault_array]"
 
-      #       # Output the formatted array and save it to the environment variable
-      #       echo "KEYVAULTS=$keyvault_array" >> $GITHUB_ENV
-      #     fi
+            # Output the formatted array and save it to the environment variable
+            echo "KEYVAULTS=$keyvault_array" >> $GITHUB_ENV
+          fi
 
       # - name: Delete Bicep Deployment
       #   if: success()
