@@ -118,7 +118,7 @@ jobs:
           echo "keyvaults :: $KEYVAULTS"
 
           # Convert JSON array into a Bash array
-          resources_to_check=$(echo $resources_json | tr -d '[]' | tr ',' '\n' | tr -d '"')
+          resources_to_check=$(echo $KEYVAULTS | tr -d '[]' | tr ',' '\n' | tr -d '"')
 
           echo "rrrrrresoucee :: $resources_to_check"
           
