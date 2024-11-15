@@ -120,9 +120,9 @@ jobs:
           stripped_keyvaults=$(echo "$KEYVAULTS" | sed 's/\[\|\]//g')
           
           # Convert the comma-separated string into an array
-          IFS=',' read -r -a keyvault_array <<< "$stripped_keyvaults"
+          IFS=',' read -r -a resources_to_check <<< "$stripped_keyvaults"
           
-          echo "final arr: ${keyvault_array[@]}"
+          echo "final arr: ${resources_to_check[@]}"
          
           # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
           # echo "rrrrrresoucee :: $resources_to_check"
