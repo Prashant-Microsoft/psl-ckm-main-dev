@@ -117,14 +117,11 @@ jobs:
           KEYVAULTS="${{ env.KEYVAULTS }}"
           echo "keyvaults :: $KEYVAULTS"
 
-          resources_to_check=$(echo "$KEYVAULTS" | sed 's/[\[\]]//g' | sed 's/,/ /g' | sed 's/[^ ]*/"&"/g')
-
-
-          # Wrap the result in parentheses
-          # resources_to_check="(${resources_to_check})"
+          # Convert to Bash array format
+          resources_to_check=(${KEYVAULTS//[\[\]\'\,]/})
 
           # Print the final result
-          echo "resources_to_check=$resources_to_check"
+          echo "resources_to_check2: $resources_to_check"
           
          
           # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
