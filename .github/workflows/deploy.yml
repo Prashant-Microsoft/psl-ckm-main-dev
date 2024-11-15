@@ -39,16 +39,16 @@ jobs:
       #   run: |
       #     az group create --name ${{ env.RESOURCE_GROUP_NAME }} --location eastus
 
-      # - name: Generate Unique Solution Prefix
-      #   id: generate_solution_prefix
-      #   run: |
-      #     set -e
-      #     COMMON_PART="purz"
-      #     TIMESTAMP=$(date +%s)  
-      #     UPDATED_TIMESTAMP=$(echo $TIMESTAMP | tail -c 3) 
-      #     UNIQUE_SOLUTION_PREFIX="${COMMON_PART}${UPDATED_TIMESTAMP}"
-      #     echo "SOLUTION_PREFIX=${UNIQUE_SOLUTION_PREFIX}" >> $GITHUB_ENV
-      #     echo "Generated SOLUTION_PREFIX: ${UNIQUE_SOLUTION_PREFIX}" 
+      - name: Generate Unique Solution Prefix
+        id: generate_solution_prefix
+        run: |
+          set -e
+          COMMON_PART="purz"
+          TIMESTAMP=$(date +%s)  
+          UPDATED_TIMESTAMP=$(echo $TIMESTAMP | tail -c 3) 
+          UNIQUE_SOLUTION_PREFIX="${COMMON_PART}${UPDATED_TIMESTAMP}"
+          echo "SOLUTION_PREFIX=${UNIQUE_SOLUTION_PREFIX}" >> $GITHUB_ENV
+          echo "Generated SOLUTION_PREFIX: ${UNIQUE_SOLUTION_PREFIX}" 
 
       # - name: Deploy Bicep Template
       #   id: deploy
@@ -122,6 +122,9 @@ jobs:
           # Convert the comma-separated string into an array
           IFS=',' read -r -a resources_to_check <<< "$stripped_keyvaults"
           
+          # Append new elements to the array
+          resources_to_check+=("${{ env.SOLUTION_PREFIX }}-openai" "${{ env.SOLUTION_PREFIX }}-cogser")
+
           echo "final arr: ${resources_to_check[@]}"
          
           # resources_to_check=("multipslre" "mykvtes" "pslmultitest")
