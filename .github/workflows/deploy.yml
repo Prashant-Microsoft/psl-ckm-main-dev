@@ -136,7 +136,7 @@ jobs:
           retry_intervals=(30 60 120)
 
           # Retry mechanism to check resources
-          retries=0
+          # retries=0
           while true; do
             resource_found=false
 
